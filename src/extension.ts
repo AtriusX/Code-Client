@@ -1,31 +1,34 @@
-import * as vscode from 'vscode';
-import * as github from '@octokit/rest';
+import    { window, commands, ExtensionContext }  from 'vscode';
+import    { github } 							  from './github';
+import * as OctoKit 							  from '@octokit/rest';
 
-export function activate(context: vscode.ExtensionContext) {
+let cli: OctoKit | undefined;
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-		console.log('Congratulations, your extension "code-client" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World!');
-	});
-
-	context.subscriptions.push(disposable);
-
-	let create = vscode.commands.registerCommand('extension.create', async () => {
-		let input = await vscode.window.showInputBox();
-		console.log(input);
-	});
-
-	context.subscriptions.push(create);
+export function activate(context: ExtensionContext) {
+	cli  = github.authenticate();
+	// Initialize commands
+	install(context, 'extension.create', async () => {
+		// let input = await window.showInputBox();
+		// commands.executeCommand('git.clone', input);
+		// window.showInformationMessage(input!);
+	}, true);
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() {}
+
+async function install(
+	context: ExtensionContext, 
+	name: string, 
+	command: () => any, 
+	requireAuth = false
+) {
+	let cmd = commands.registerCommand(name, 
+		requireAuth ? () => {
+			cli = github.authenticate();
+			if (cli !== undefined) {
+				command();
+			}
+		} : command
+	);
+	context.subscriptions.push(cmd);
+}
