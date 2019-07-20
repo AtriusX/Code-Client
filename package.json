@@ -10,21 +10,46 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld",
+		"onCommand:extension.add-user",
+		"onCommand:extension.remove-user",
+		"onCommand:extension.change-user",
+		"onCommand:extension.edit-user",
 		"onCommand:extension.create"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "extension.add-user",
+				"title": "Add a GitHub account login"
+			},
+			{
+				"command": "extension.remove-user",
+				"title": "Remove a GitHub account login"
+			},
+			{
+				"command": "extension.change-user",
+				"title": "Switch the current active account"
+			},
+			{
+				"command": "extension.edit-user",
+				"title": "Edit the login info for the active accout"
 			},
 			{
 				"command": "extension.create",
 				"title": "Create a repository on github"
 			}
-		]
+		],
+		"configuration": {
+			"title": "code-client",
+			"properties": {
+				"code-client.users": {
+					"type": "array",
+					"default": [],
+					"description": "count credentials"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

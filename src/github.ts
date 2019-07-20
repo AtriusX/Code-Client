@@ -6,7 +6,7 @@ export namespace github {
     /**
      * * Attempts to authenticate the user's credentials
      */
-    export function authenticate(): OctoKit | undefined {
+    export function authenticate(): OctoKit {
         // Check for user credentials
         let username = '', 
             password = '';
@@ -26,7 +26,7 @@ export namespace github {
         });
     }
 
-    export function login(): OctoKit | undefined {
+    export function login(): OctoKit {
         window.showErrorMessage(
             "You need to log in with GitHub to continue.", "Login", "Ignore"
         ).then((data) => {
@@ -40,6 +40,6 @@ export namespace github {
                 window.showInformationMessage(data!);
             });
         });
-        return undefined;
+        return new OctoKit();
     }
 }
