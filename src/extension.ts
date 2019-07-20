@@ -1,12 +1,13 @@
 import    { window, commands, ExtensionContext, workspace }  from 'vscode';
 import    { github } 							  			 from './github';
 import * as OctoKit 							  			 from '@octokit/rest';
-import { Account, AccountType } from './Account';
+import    { Account, AccountType } 							 from './Account';
 let cli: OctoKit;
 
+// Extension configuration
+const config = workspace.getConfiguration('code-client', null);
+
 export function activate(context: ExtensionContext) {
-	// Extension configuration
-	const config = workspace.getConfiguration('code-client', null);
 	// Initialize commands
 	install(context, 'add-user', async () => {
 		let type, name, key;
@@ -16,11 +17,11 @@ export function activate(context: ExtensionContext) {
 				let isuser = value === user;
 				type = value;
 				name = await window.showInputBox({
-					prompt: 'Please type in ' + (isuser ? 'the account username.' : ' the display name for the token.')
+					prompt: 'Please type in the ' + (isuser ? 'account username.' : 'token display name.')
 				});
 
 				key = await window.showInputBox({
-					prompt: 'Please type in ' + (isuser ? 'the account password.' : 'the token.'),
+					prompt: 'Please type in the ' + (isuser ? 'account password.' : 'token.'),
 					password: true
 				});
 			}
@@ -37,26 +38,78 @@ export function activate(context: ExtensionContext) {
 
 	install(context, 'remove-user', async () => {
 		let users: Array<Account> = config.get('users', []);
+		let names: string[] 	  = accountNames(users);
 		
-		if (users.length === 0) {
+		if (names.length === 0) {
 			window.showInformationMessage('No GitHub accounts saved');
 		}
-		var names: string[] = users.map(a => a.name);
-		window.showQuickPick(names).then(selected => {
+
+		window.showQuickPick(names).then(async selected => {
 			if (selected) {
 				users.splice(names.indexOf(selected!), 1);
 				config.update('users', users);
 				window.showInformationMessage(`Deleted '${selected}' from accounts`);
+			
+				if (selected === github.currentAccount.name) {
+					let name = users.length !== 0 ? users[0].name : '';
+					window.showInformationMessage(name === '' ? 'Removed active account' : `Set active account to ${name}`);
+					await github.setCurrentAccount(name);
+				}
 			}
 		});
 	});
 
-	install(context, 'change-user', () => {
+	install(context, 'change-user', async () => {
+		let selection = await selectName();
 
+		if (selection) {
+			github.setCurrentAccount(selection);
+			window.showInformationMessage(`Set active account to ${selection}`);
+		}
 	});
 
-	install(context, 'edit-user', () => {
+	install(context, 'edit-user', async () => {
+		let users: Array<Account> = config.get('users', []);
+		let names: string[]		  = accountNames(users);
 
+		let selection = await window.showQuickPick(names);
+
+		if (selection) {
+			let index = names.indexOf(selection);
+			let account = users[index];
+			let item = await window.showQuickPick(
+				account.type === AccountType.USER ? ['Username', 'Password'] : ['Name', 'Token']
+			);
+			
+			if (!item) {
+				return;
+			}
+
+			if (item === 'Username' || 'Name') {
+				let name = await window.showInputBox({
+					prompt: `Enter the new ${item.toLowerCase()} for the account`
+				});
+
+				if (name) {
+					account.name = name!;
+				}
+			}
+
+			else if (item === 'Password' || 'Token') {
+				let key = await window.showInputBox({
+					prompt: `Enter the new ${item.toLowerCase()} for the account`,
+					password: true
+				});
+
+				if (key) {
+					account.key = key;
+				}
+			}
+			// Update user account
+			users[index] = account;
+			config.update('users', users);
+			window.showInformationMessage(`Updated account data for ${selection}`)
+		}
 	});
 
 	install(context, 'create', async () => {
@@ -83,4 +136,14 @@ async function install(
 		} : command
 	);
 	context.subscriptions.push(cmd);
+}
+
+function accountNames(accounts: Array<Account>): string[] {
+	return accounts.map(a => a.name);
+}
+
+async function selectName(): Promise<string | undefined> {
+	let users: Array<Account> = config.get('users', []);
+	let names: string[] 	  = accountNames(users);
+	return await window.showQuickPick(names);
 }
