@@ -46,7 +46,7 @@
 				"code-client.users": {
 					"type": "array",
 					"default": [],
-					"description": "count credentials"
+					"description": "GitHub account credentials"
 				}
 			}
 		}
