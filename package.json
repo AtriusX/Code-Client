@@ -10,33 +10,33 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.add-user",
-		"onCommand:extension.remove-user",
-		"onCommand:extension.change-user",
-		"onCommand:extension.edit-user",
-		"onCommand:extension.create"
+		"onCommand:code-client.add-user",
+		"onCommand:code-client.remove-user",
+		"onCommand:code-client.change-user",
+		"onCommand:code-client.edit-user",
+		"onCommand:code-client.create"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.add-user",
+				"command": "code-client.add-user",
 				"title": "Add a GitHub account login"
 			},
 			{
-				"command": "extension.remove-user",
+				"command": "code-client.remove-user",
 				"title": "Remove a GitHub account login"
 			},
 			{
-				"command": "extension.change-user",
+				"command": "code-client.change-user",
 				"title": "Switch the current active account"
 			},
 			{
-				"command": "extension.edit-user",
+				"command": "code-client.edit-user",
 				"title": "Edit the login info for the active accout"
 			},
 			{
-				"command": "extension.create",
+				"command": "code-client.create",
 				"title": "Create a repository on github"
 			}
 		],

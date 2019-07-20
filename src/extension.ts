@@ -74,7 +74,7 @@ async function install(
 	command: () => any, 
 	requireAuth = false
 ) {
-	let cmd = commands.registerCommand('extension.' + name, 
+	let cmd = commands.registerCommand('code-client.' + name, 
 		requireAuth ? () => {
 			cli = github.authenticate();
 			if (cli !== undefined) {
