@@ -47,6 +47,11 @@
 					"type": "array",
 					"default": [],
 					"description": "GitHub account credentials"
+				},
+				"code-client.active-account": {
+					"type": "string",
+					"default": "",
+					"description": "Currently active account"
 				}
 			}
 		}

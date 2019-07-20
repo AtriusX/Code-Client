@@ -1,8 +1,18 @@
-import    { window } from 'vscode';
-import * as OctoKit  from '@octokit/rest';
+import    { Account }           from './Account';
+import    { window, workspace } from 'vscode';
+import * as OctoKit             from '@octokit/rest';
 
 export namespace github {
-    
+    const config = workspace.getConfiguration('code-client');
+    export let currentAccount: Account;
+
+    export async function setCurrentAccount(name: string) {
+        let users: Array<Account> = config.get('users', []);
+        let names: string[] = users.map(a => a.name);
+        currentAccount = users[names.indexOf(name)];
+        await config.update('active-account', name);
+    }
+
     /**
      * * Attempts to authenticate the user's credentials
      */
