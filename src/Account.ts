@@ -1,8 +1,7 @@
-import { AccountType } from './Account';
 export class Account {
-    type: AccountType
-    name: string
-    key:  string
+    type: AccountType;
+    name: string;
+    key:  string;
 
     constructor(type: AccountType, name: string, key: string) {
         this.type = type;
@@ -11,7 +10,7 @@ export class Account {
     }
 }
 
-export const AccountType = {
-    USER:  'Username & Password',
-    TOKEN: 'Token'
+export enum AccountType {
+    USER  = 'Username & Password',
+    TOKEN = 'Token'
 }
