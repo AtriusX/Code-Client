@@ -3,7 +3,7 @@ import    { window, workspace } from 'vscode';
 import * as OctoKit             from '@octokit/rest';
 
 export namespace github {
-    const config = workspace.getConfiguration('code-client');
+    const config = workspace.getConfiguration('managit');
     export let currentAccount: Account;
 
     export async function setCurrentAccount(name: string) {

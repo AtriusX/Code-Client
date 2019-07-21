@@ -3,7 +3,7 @@ Manage parts of your github account from the comfort of your text editor!
 
 # Managit README
 
-This is the README for your extension "code-client". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "managit". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 

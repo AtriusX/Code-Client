@@ -11,7 +11,7 @@ export class Account {
         this.key  = key;
     }
 
-    public login(): Octokit {
+    login(): Octokit {
         let isUser = this.type === AccountType.USER;
         return new Octokit({
             auth: isUser ? {

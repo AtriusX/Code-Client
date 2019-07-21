@@ -2,11 +2,12 @@ import    { window, commands, ExtensionContext, workspace }  from 'vscode';
 import    { github } 							  			 from './github';
 import * as OctoKit 							  			 from '@octokit/rest';
 import    { Account, AccountType } 							 from './Account';
+import { start } from 'repl';
 					
 let cli: OctoKit;
 
 // Extension configuration
-const config = workspace.getConfiguration('code-client', null);
+const config = workspace.getConfiguration('managit', null);
 
 export function activate(context: ExtensionContext) {
 	// Initialize commands
@@ -109,37 +110,75 @@ export function activate(context: ExtensionContext) {
 			// Update user account
 			users[index] = account;
 			config.update('users', users);
-			window.showInformationMessage(`Updated account data for ${selection}`)
+			window.showInformationMessage(`Updated account data for ${selection}`);
 		}
 	});
 
-	install(context, 'create', async () => {
+	install(context, 'create-repository', async () => {
 		let account = github.currentAccount.login();
+		// Get repository properties
 		let name = await window.showInputBox({
 			prompt: 'Type in the name of your repository'
 		});
 		let desc = await window.showInputBox({
 			prompt: 'Type in the description for your repository'
 		});
+		let repoPrivate = await window.showQuickPick(['Yes', 'No'], {
+			placeHolder: 'Make repository private?'
+		}).then(selected => {
+			return selected === 'Yes' ? true : false;
+		});
 		let init = await window.showQuickPick(['Yes', 'No'], {
 			placeHolder: 'Auto initialize?'
 		}).then(selected => {
 			return selected === 'Yes' ? true : false;
 		});
-
+		// Name is the only required property
 		if (!name) {
 			return;
 		}
 
 		account.repos.createForAuthenticatedUser({
-			name: name, 
-			description: desc,
-			auto_init: init
-		}).then(() => { 
-			window.showInformationMessage(`Created repository '${name}'`);
+			name: name, description: desc,
+			private: repoPrivate, auto_init: init
+		}).then((result) => { 
+			window.showInformationMessage(`Created repository '${name}'`, 'Clone').then(() => {
+				commands.executeCommand('git.clone', result.data.url).then(() => {
+					window.showInformationMessage('Repository cloned');
+				});
+			});
 		});
 		// TODO auto clone repository and open it
 	}, true);
+
+	install(context, 'delete-repository', async () => {
+		let account = github.currentAccount.login();
+		let names = (await account.repos.list())!
+			.data.map((r: { name: string; }) => r.name);
+		
+		let selection = await window.showQuickPick(names, {
+			placeHolder: 'Which repository do you want to delete?'
+		});
+
+		if (selection) {
+			let answer = await window.showInputBox({
+				prompt: 'Type in the repository name if you are sure you want to delete it',
+				placeHolder: selection
+			});
+
+			if (answer === selection) {
+				account.repos.delete({
+					owner: github.currentAccount.name,
+					repo: selection
+				}).then(() => {
+					window.showInformationMessage(`Deleted repository ${selection}`);
+				});
+				return;
+			}
+
+			window.showErrorMessage('Delete operation aborted');
+		}
+	});
 }
 
 export function deactivate() {}
@@ -150,7 +189,7 @@ async function install(
 	command: () => any, 
 	requireAuth: boolean = false
 ) {
-	let cmd = commands.registerCommand('code-client.' + name, 
+	let cmd = commands.registerCommand('managit.' + name, 
 		requireAuth ? () => {
 			cli = github.authenticate();
 			if (cli !== undefined) {
