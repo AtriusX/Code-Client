@@ -1,3 +1,5 @@
+import * as Octokit from '@octokit/rest';
+
 export class Account {
     type: AccountType;
     name: string;
@@ -7,6 +9,20 @@ export class Account {
         this.type = type;
         this.name = name;
         this.key  = key;
+    }
+
+    public login(): Octokit {
+        let isUser = this.type === AccountType.USER;
+        return new Octokit({
+            auth: isUser ? {
+                username: this.name,
+                password: this.key,
+                async on2fa() {
+                    return '';
+                }
+            } : this.key,
+            userAgent: 'Managit'
+        });
     }
 }
 
