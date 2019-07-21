@@ -2,6 +2,7 @@ import    { window, commands, ExtensionContext, workspace }  from 'vscode';
 import    { github } 							  			 from './github';
 import * as OctoKit 							  			 from '@octokit/rest';
 import    { Account, AccountType } 							 from './Account';
+					
 let cli: OctoKit;
 
 // Extension configuration
@@ -113,9 +114,31 @@ export function activate(context: ExtensionContext) {
 	});
 
 	install(context, 'create', async () => {
-		// let input = await window.showInputBox();
-		// commands.executeCommand('git.clone', input);
-		// window.showInformationMessage(input!);
+		let account = github.currentAccount.login();
+		let name = await window.showInputBox({
+			prompt: 'Type in the name of your repository'
+		});
+		let desc = await window.showInputBox({
+			prompt: 'Type in the description for your repository'
+		});
+		let init = await window.showQuickPick(['Yes', 'No'], {
+			placeHolder: 'Auto initialize?'
+		}).then(selected => {
+			return selected === 'Yes' ? true : false;
+		});
+
+		if (!name) {
+			return;
+		}
+
+		account.repos.createForAuthenticatedUser({
+			name: name, 
+			description: desc,
+			auto_init: init
+		}).then(() => { 
+			window.showInformationMessage(`Created repository '${name}'`);
+		});
+		// TODO auto clone repository and open it
 	}, true);
 }
 
@@ -125,7 +148,7 @@ async function install(
 	context: ExtensionContext, 
 	name: string, 
 	command: () => any, 
-	requireAuth = false
+	requireAuth: boolean = false
 ) {
 	let cmd = commands.registerCommand('code-client.' + name, 
 		requireAuth ? () => {
