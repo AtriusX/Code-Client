@@ -22,27 +22,27 @@
 		"commands": [
 			{
 				"command": "managit.add-user",
-				"title": "Add a GitHub account login"
+				"title": "Managit: Add a GitHub account login"
 			},
 			{
 				"command": "managit.remove-user",
-				"title": "Remove a GitHub account login"
+				"title": "Managit: Remove a GitHub account login"
 			},
 			{
 				"command": "managit.change-user",
-				"title": "Change the active GitHub account"
+				"title": "Managit: Change the active GitHub account"
 			},
 			{
 				"command": "managit.edit-user",
-				"title": "Edit the login info for the active GitHub accout"
+				"title": "Managit: Edit the login info for the active GitHub accout"
 			},
 			{
 				"command": "managit.create-repository",
-				"title": "Create a repository on GitHub"
+				"title": "Managit: Create a repository on GitHub"
 			},
 			{
 				"command": "managit.delete-repository",
-				"title": "Delete a repository on GitHub"
+				"title": "Managit: Delete a repository on GitHub"
 			}
 		],
 		"configuration": {
@@ -57,6 +57,16 @@
 					"type": "string",
 					"default": "",
 					"description": "Currently active account"
+				},
+				"managit.auto-clone": {
+					"type": "boolean",
+					"default": false,
+					"description": "Auto-clone repositories once created"
+				},
+				"managit.notifications": {
+					"type": "boolean",
+					"default": true,
+					"description": "Get notifications from github in real-time"
 				}
 			}
 		}
