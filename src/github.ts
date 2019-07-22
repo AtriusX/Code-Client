@@ -6,11 +6,11 @@ export namespace github {
     const config = workspace.getConfiguration('managit');
     export let currentAccount: Account;
 
-    export async function setCurrentAccount(name: string) {
+    export function setCurrentAccount(name: string) {
         let users: Array<Account> = config.get('users', []);
         let names: string[] = users.map(a => a.name);
         currentAccount = users[names.indexOf(name)];
-        await config.update('active-account', name);
+        config.update('active-account', name);
     }
 
     /**
