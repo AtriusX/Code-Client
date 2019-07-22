@@ -10,7 +10,7 @@ export class RemoveAccount implements Command {
     
     async run(): Promise<void> {
         let users: Array<Account> = config.get('users', []);
-		let names: string[] 	  = accountNames(users);
+		let names: string[] 	  = this.accountNames(users);
 		
 		if (names.length === 0) {
 			window.showInformationMessage('No GitHub accounts saved');
@@ -29,5 +29,9 @@ export class RemoveAccount implements Command {
 				}
 			}
 		});
+    }
+
+    private accountNames(accounts: Array<Account>): string[] {
+        return accounts.map(a => a.name);
     }
 }

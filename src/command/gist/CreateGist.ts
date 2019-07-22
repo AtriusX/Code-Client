@@ -1,5 +1,5 @@
 import { Command } from "..";
-import { window } from "vscode";
+import { window, Range } from "vscode";
 import { github } from "../../github";
 
 export class CreateGist implements Command {
