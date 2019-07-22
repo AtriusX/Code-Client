@@ -22,19 +22,19 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "managit.add-user",
+				"command": "managit.add-account",
 				"title": "Managit: Add a GitHub account login"
 			},
 			{
-				"command": "managit.remove-user",
+				"command": "managit.remove-account",
 				"title": "Managit: Remove a GitHub account login"
 			},
 			{
-				"command": "managit.change-user",
+				"command": "managit.change-account",
 				"title": "Managit: Change the active GitHub account"
 			},
 			{
-				"command": "managit.edit-user",
+				"command": "managit.edit-account",
 				"title": "Managit: Edit the login info for the active GitHub accout"
 			},
 			{
