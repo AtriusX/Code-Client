@@ -15,7 +15,8 @@
 		"onCommand:managit.change-user",
 		"onCommand:managit.edit-user",
 		"onCommand:managit.create-repository",
-		"onCommand:managit.delete-repository"
+		"onCommand:managit.delete-repository",
+		"onCommand:managit.create-gist"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -43,6 +44,10 @@
 			{
 				"command": "managit.delete-repository",
 				"title": "Managit: Delete a repository on GitHub"
+			},
+			{
+				"command": "managit.create-gist",
+				"title": "Managit: Create Gist"
 			}
 		],
 		"configuration": {
