@@ -1,21 +1,23 @@
 import { Command } from "..";
-import { Account, AccountType } from "../../Account";
-import { window, workspace } from "vscode";
-
-const config = workspace.getConfiguration('managit', null);
+import { Account, AccountType } from "../../auth/";
+import { window } from "vscode";
+import { Config } from "../config";
 
 export class EditAccount implements Command {    
     command: string = 'edit-account';
 
     async run(): Promise<void> {
-        let users: Array<Account> = config.get('users', []);
-		let names: string[]		  = accountNames(users);
-
+		let names = Config.getAccountNames();
 		let selection = await window.showQuickPick(names);
 
 		if (selection) {
 			let index = names.indexOf(selection);
-			let account = users[index];
+			let account = Config.getAccount(index);
+
+			if (!account) {
+				return;
+			}
+
 			let item = await window.showQuickPick(
 				account.type === AccountType.USER ? ['Username', 'Password'] : ['Name', 'Token']
 			);
@@ -45,13 +47,8 @@ export class EditAccount implements Command {
 				}
 			}
 			// Update user account
-			users[index] = account;
-			config.update('users', users);
+			Config.updateAccount(account, index);
 			window.showInformationMessage(`Updated account data for ${selection}`);
 		}
     }    
-}
-
-function accountNames(accounts: Array<Account>): string[] {
-    return accounts.map(a => a.name);
 }

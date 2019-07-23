@@ -13,7 +13,7 @@ export class CreateGist implements Command {
 			return;
 		}
 
-		let type = await window.showQuickPick(['File', 'Selection']);
+		let type = await window.showQuickPick(['File', 'Selection', 'Selected-Files']);
 
 		
 		
@@ -33,6 +33,9 @@ export class CreateGist implements Command {
 				let range = new Range(sel.start, sel.end);
 				data.data = doc.getText(range);
 				break;
+			case 'Selected-Files':
+				break;
+			default: return;
 		}
 	
 		let desc = await window.showInputBox({

@@ -2,7 +2,6 @@ import { Command } from '..';
 import { github } from '../../github';
 import { window, commands } from 'vscode';
 
-
 export class CreateRepository implements Command {
     command: string = 'create-repository';    
     
