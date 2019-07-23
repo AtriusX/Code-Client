@@ -26,17 +26,17 @@ export class EditAccount implements Command {
 				return;
 			}
 
-			if (item === 'Username' || 'Name') {
+			if (['Username', 'Name'].includes(item)) {
 				let name = await window.showInputBox({
 					prompt: `Enter the new ${item.toLowerCase()} for the account`
 				});
-
+				
 				if (name) {
 					account.name = name!;
 				}
 			}
 
-			else if (item === 'Password' || 'Token') {
+			else if (['Password', 'Token'].includes(item)) {
 				let key = await window.showInputBox({
 					prompt: `Enter the new ${item.toLowerCase()} for the account`,
 					password: true
