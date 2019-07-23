@@ -1,26 +1,28 @@
 import { 
-	CommandManager, 
+	Commands, 
 	AddAccount, 
 	EditAccount, 
 	ChangeAccount, 
 	RemoveAccount, 
 	CreateRepository, 
 	DeleteRepository, 
-	CreateGist
+	CreateGist,
+	DeleteGist
 } from './command/';
 // import { AddAccount, EditAccount, ChangeAccount, RemoveAccount } from './command/account';
-import { ExtensionContext, commands } from 'vscode';
+import { ExtensionContext } from 'vscode';
 
 export function activate(context: ExtensionContext) {
 	// Initialize commands
-	CommandManager.register(context,
+	Commands.register(context,
 		new AddAccount(),
 		new EditAccount(),
 		new ChangeAccount(),
 		new RemoveAccount(),
 		new CreateRepository(),
 		new DeleteRepository(),
-		new CreateGist()
+		new CreateGist(),
+		new DeleteGist()
 	);
 }
 

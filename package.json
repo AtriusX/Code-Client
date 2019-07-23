@@ -16,7 +16,8 @@
 		"onCommand:managit.edit-account",
 		"onCommand:managit.create-repository",
 		"onCommand:managit.delete-repository",
-		"onCommand:managit.create-gist"
+		"onCommand:managit.create-gist",
+		"onCommand:managit.delete-gist"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -48,6 +49,10 @@
 			{
 				"command": "managit.create-gist",
 				"title": "Managit: Create Gist"
+			},
+			{
+				"command": "managit.delete-gist",
+				"title": "Managit: Delete Gist"
 			}
 		],
 		"configuration": {
@@ -58,7 +63,7 @@
 					"default": [],
 					"description": "GitHub account credentials"
 				},
-				"managit.active-account": {
+				"managit.current-account": {
 					"type": "string",
 					"default": "",
 					"description": "Currently active account"
@@ -67,11 +72,6 @@
 					"type": "boolean",
 					"default": false,
 					"description": "Auto-clone repositories once created"
-				},
-				"managit.notifications": {
-					"type": "boolean",
-					"default": true,
-					"description": "Get notifications from github in real-time"
 				}
 			}
 		}
