@@ -1,4 +1,4 @@
-import    { Account }           from './Account';
+import    { Account }           from './auth/';
 import    { window, workspace } from 'vscode';
 import * as OctoKit             from '@octokit/rest';
 

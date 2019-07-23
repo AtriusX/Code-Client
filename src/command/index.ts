@@ -1,6 +1,5 @@
 // Command
 export * from './Command';
-export * from './CommandManager';
 // Account
 export * from './account/AddAccount';
 export * from './account/ChangeAccount';
@@ -11,3 +10,4 @@ export * from './repo/CreateRepository';
 export * from './repo/DeleteRepository';
 // Gist
 export * from './gist/CreateGist';
+export * from './gist/DeleteGist';
