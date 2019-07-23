@@ -1,12 +1,13 @@
+// Command
 export * from './Command';
 export * from './CommandManager';
-// Account Commands
+// Account
 export * from './account/AddAccount';
 export * from './account/ChangeAccount';
 export * from './account/EditAccount';
 export * from './account/RemoveAccount';
-// Repo commands
+// Repo
 export * from './repo/CreateRepository';
 export * from './repo/DeleteRepository';
-// Gist Commands
+// Gist
 export * from './gist/CreateGist';

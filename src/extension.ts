@@ -1,21 +1,19 @@
-import    { ExtensionContext, workspace } from 'vscode';
-import * as OctoKit 					  from '@octokit/rest';
 import { 
 	CommandManager, 
 	AddAccount, 
-	ChangeAccount,
-	EditAccount,
-	RemoveAccount,
-	CreateRepository,
-	DeleteRepository,
-	CreateGist 
-} from './command';
+	EditAccount, 
+	ChangeAccount, 
+	RemoveAccount, 
+	CreateRepository, 
+	DeleteRepository, 
+	CreateGist
+} from './command/';
+// import { AddAccount, EditAccount, ChangeAccount, RemoveAccount } from './command/account';
+import { ExtensionContext, commands } from 'vscode';
 
 export function activate(context: ExtensionContext) {
 	// Initialize commands
-	let manager = CommandManager.getInstance(context);
-
-	manager.register(
+	CommandManager.register(context,
 		new AddAccount(),
 		new EditAccount(),
 		new ChangeAccount(),
