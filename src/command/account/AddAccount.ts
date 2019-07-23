@@ -30,8 +30,6 @@ export class AddAccount implements Command {
 			const users: Array<Account> = config.get('users', []);
 			users.push(new Account(type, name, key));
 			config.update('users', users);
-		} else {
-			console.log('Creation aborted');
 		}
     }
 }
