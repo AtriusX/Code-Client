@@ -1,6 +1,6 @@
-import { Command } from "..";
 import { window }  from "vscode";
-import { Config }  from "../config";
+import { Command } from "..";
+import { Config }  from "../../config";
 
 export class RemoveAccount implements Command {
     command: string = 'remove-account';    

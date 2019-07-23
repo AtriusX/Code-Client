@@ -1,7 +1,7 @@
 import { Command } from "..";
 import { Account, AccountType } from "../../auth/";
 import { window } from "vscode";
-import { Config } from "../config";
+import { Config } from "../../config";
 
 export class EditAccount implements Command {    
     command: string = 'edit-account';

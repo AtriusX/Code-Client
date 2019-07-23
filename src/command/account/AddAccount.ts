@@ -1,6 +1,6 @@
 import { Command }              from "..";
 import { AccountType, Account } from "../../auth/";
-import { Config } 				from "../config";
+import { Config } 				from "../../config";
 import { Input }				from "../../util";
 
 export class AddAccount implements Command {

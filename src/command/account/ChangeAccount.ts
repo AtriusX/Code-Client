@@ -1,7 +1,6 @@
-import { Command } from "..";
-import { github }  from "../../github";
 import { window }  from "vscode";
-import { Config } from "../config";
+import { Command } from "..";
+import { Config }  from "../../config";
 
 export class ChangeAccount implements Command {
     command: string = 'change-account';
