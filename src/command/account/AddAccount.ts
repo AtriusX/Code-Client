@@ -5,9 +5,8 @@ import { AccountType, Account } from "../../Account";
 const config = workspace.getConfiguration('managit', null);
 
 export class AddAccount implements Command {
+	command: string = 'add-account';    
 
-    command: string = 'add-account';    
-    
     async run(): Promise<void> {
         let type, name, key;
 		let user = AccountType.USER, token = AccountType.TOKEN;

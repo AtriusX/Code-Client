@@ -4,13 +4,12 @@ import { window, workspace } from "vscode";
 
 const config = workspace.getConfiguration('managit', null);
 
-export class EditAccount implements Command {
-    
+export class EditAccount implements Command {    
     command: string = 'edit-account';
-    
+
     async run(): Promise<void> {
         let users: Array<Account> = config.get('users', []);
-		let names: string[]		  = this.accountNames(users);
+		let names: string[]		  = accountNames(users);
 
 		let selection = await window.showQuickPick(names);
 
@@ -51,8 +50,8 @@ export class EditAccount implements Command {
 			window.showInformationMessage(`Updated account data for ${selection}`);
 		}
     }    
-    
-    private accountNames(accounts: Array<Account>): string[] {
-        return accounts.map(a => a.name);
-    }
+}
+
+function accountNames(accounts: Array<Account>): string[] {
+    return accounts.map(a => a.name);
 }

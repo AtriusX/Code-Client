@@ -3,7 +3,6 @@ import { window } from 'vscode';
 import { github } from '../../github';
 
 export class DeleteRepository implements Command {
-
     command: string = 'delete-repository';    
     
     async run(): Promise<void> {

@@ -3,7 +3,6 @@ import { window, Range } from "vscode";
 import { github } from "../../github";
 
 export class CreateGist implements Command {
-    
     command: string = 'create-gist';   
     
     async run(): Promise<void> {
