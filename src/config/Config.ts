@@ -2,9 +2,9 @@ import { Account } from '../auth';
 import { workspace } from "vscode";
 
 export namespace Config {
-    const config = workspace.getConfiguration('managit');
+    const config = workspace.getConfiguration('managit', null);
 
-    export function getAccounts(): Array<Account> {
+    export function getAccounts(): Account[] {
         return config.get('users', []); 
     }
 
@@ -16,30 +16,34 @@ export namespace Config {
         let accounts = getAccounts();
         // Index retreival
         if (typeof(val) === "number") {
-            return accounts[val as number];
+            return accounts[val];
         }
         // Name retreival
-        accounts.forEach(a => {
-            if (a.name === val) {
-                return a;
-            }
-        });
+        for (let a of accounts) {
+            if (a.name === val) { return a; }
+        }
+        // No account found
         return null;
     }
 
     export function addAccount(account: Account) {
-        config.update('users', getAccounts().push(account));
+        let accounts = getAccounts();
+        accounts.push(account);
+        config.update('users', accounts);
     }
 
     export function removeAccount(account: Account | number) {
         let accounts = getAccounts();
-        config.update('users', accounts.splice(
+        accounts.splice(
             typeof(account) === "number" ? account : accounts.indexOf(account), 1
-        ));
+        );
+        config.update('users', accounts);
     }
 
     export function updateAccount(account: Account, index: number) {
-        config.update('users', getAccounts()[index] = account);
+        let accounts    = getAccounts();
+        accounts[index] = account;
+        config.update('users', accounts);
     }
 
     export function currentAccount(name: string | number | undefined): Account | null {
@@ -48,8 +52,7 @@ export namespace Config {
             return getAccount(config.get('current-account', ''));
         }
         // Replace the existing account with a new one
-        let account = getAccount(name);
-        config.update('current-account', account);
-        return account;
+        config.update('current-account', name);
+        return getAccount(name);
     }
 }
