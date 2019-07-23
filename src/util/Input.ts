@@ -6,49 +6,53 @@ export namespace Input {
         positive:    string, 
         negative:    string, 
         placeHolder: string = '', 
-        chain:       any = true
+        chain:       any
     ): Promise<boolean | undefined> {    
-        if (!chain) {
-            return undefined;
+        if (chain !== undefined) {
+            console.log(chain);
+            let res = await window.showQuickPick([positive, negative], {
+                placeHolder: placeHolder
+            }, undefined);
+    
+            switch(res) {
+                case positive: return true;
+                case negative: return false;
+                default:       return undefined;
+            }    
         }
 
-        let result = await window.showQuickPick([positive, negative], {
-            placeHolder: placeHolder
-        });
+        return undefined;
 
-        if (result === undefined) {
-            return result;
-        } else {
-            return result === positive ? true : false;
-        }
     }
 
     export async function input(
-        prompt:   string = '', 
-        chain:    any = true,
+        prompt:   string  = '', 
+        chain:    any,
         password: boolean = false
     ): Promise<string | undefined> {    
-        if (!chain) {
-            return undefined;
+        if (chain !== undefined) {
+            console.log(chain);
+            return await window.showInputBox({
+                prompt: prompt,
+                password: password
+            }, undefined);
         }
 
-        return await window.showInputBox({
-            prompt: prompt,
-            password: password
-        });
+        return undefined;
     }
 
     export async function pick(
         items:       string[], 
         placeHolder: string = '', 
-        chain:       any = true
+        chain:       any
     ): Promise<string | undefined> {
-        if (!chain) { 
-            return undefined;
+        if (chain !== undefined) { 
+            console.log(chain);
+            return await window.showQuickPick(items, {
+                placeHolder: placeHolder
+            }, undefined);
         }
-
-        return await window.showQuickPick(items, {
-            placeHolder: placeHolder
-        });
+        
+        return undefined;
     }
 }
