@@ -1,4 +1,4 @@
-import { Account } from './../../auth/';
+import { Account } from '../auth';
 import { workspace } from "vscode";
 
 export namespace Config {
