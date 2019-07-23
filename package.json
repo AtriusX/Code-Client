@@ -10,10 +10,10 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:managit.add-user",
-		"onCommand:managit.remove-user",
-		"onCommand:managit.change-user",
-		"onCommand:managit.edit-user",
+		"onCommand:managit.add-account",
+		"onCommand:managit.remove-account",
+		"onCommand:managit.change-account",
+		"onCommand:managit.edit-account",
 		"onCommand:managit.create-repository",
 		"onCommand:managit.delete-repository",
 		"onCommand:managit.create-gist"
