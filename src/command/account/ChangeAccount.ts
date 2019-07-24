@@ -1,13 +1,14 @@
 import { window }  from "vscode";
 import { Command } from "..";
 import { Config }  from "../../config";
+import { Input }   from "../../util";
 
 export class ChangeAccount implements Command {
     command: string = 'change-account';
 
     async run(): Promise<void> {
-        let selection = await window.showQuickPick(
-            Config.getAccountNames()
+        let selection = await Input.pick(
+            Config.getAccountNames(), 'Account name', true
         );
 
 		if (selection) {

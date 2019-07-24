@@ -22,6 +22,7 @@ export class AddAccount implements Command {
 		);
 
 		if (name && key) {
+			Config.currentAccount(name);
 			Config.addAccount(
 				new Account(isuser ? user : token, name, key)
 			);
