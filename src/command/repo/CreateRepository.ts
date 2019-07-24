@@ -1,37 +1,28 @@
 import { Command }          from '..';
 import { github }           from '../../github';
 import { window, commands } from 'vscode';
+import { input } from '../../util';
 
 export class CreateRepository implements Command {
   command: string = 'create-repository';
 
   async run(): Promise<void> {
-    let account = github.currentAccount.login();
     // Get repository properties
-    let name = await window.showInputBox({
-      prompt: 'Type in the name of your repository'
-    });
-    let desc = await window.showInputBox({
-      prompt: 'Type in the description for your repository'
-    });
-    let repoPrivate = await window.showQuickPick(['Yes', 'No'], {
-      placeHolder: 'Make repository private?'
-    }).then(selected => {
-      return selected === 'Yes' ? true : false;
-    });
-    let init = await window.showQuickPick(['Yes', 'No'], {
-      placeHolder: 'Auto initialize?'
-    }).then(selected => {
-      return selected === 'Yes' ? true : false;
-    });
-    // Name is the only required property
-    if (!name) {
-      return;
-    }
+    let name = await input.input('Type in the name of your repository');
+    if (!name) return;
 
+    let desc = await input.input('Type in the description for your repository');
+    
+    let visibility = await input.booleanChoice('Yes', 'No', 'Make repository private?');
+    if (visibility === undefined) visibility = false;
+
+    let init = await input.booleanChoice('Yes', 'No', 'Auto initialize?');
+    if (init === undefined) init = false;
+
+    let account = github.currentAccount.login();
     account.repos.createForAuthenticatedUser({
       name: name, description: desc,
-      private: repoPrivate, auto_init: init
+      private: visibility, auto_init: init
     }).then((result) => {
       window.showInformationMessage(`Created repository '${name}'`, 'Clone').then(() => {
         commands.executeCommand('git.clone', result.data.url).then(() => {
