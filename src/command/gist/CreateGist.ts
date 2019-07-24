@@ -4,8 +4,8 @@ import { github }        from "../../github";
 import { input }         from "../../util";
 
 export class CreateGist implements Command {
-    command: string = 'create-gist';   
-    
+    command: string = 'create-gist';
+
     async run(): Promise<void> {
     let active = window.activeTextEditor;
     if (!active) {
@@ -20,8 +20,8 @@ export class CreateGist implements Command {
     if (visible === undefined) return;
 
     let doc   = active.document, sel = active.selection;
-    let range = type ? undefined : new Range(sel.start, sel.end); 
-    let data  = { 
+    let range = type ? undefined : new Range(sel.start, sel.end);
+    let data  = {
       name: doc.fileName.split('\\').pop(), data: doc.getText(range).trim()
     };
 
@@ -32,7 +32,7 @@ export class CreateGist implements Command {
 
     let desc = await input.input('Enter a description for your Gist');
     if (desc === undefined) return;
-    
+
     github.currentAccount.login().gists.create({
       description: desc,
       public: visible,
