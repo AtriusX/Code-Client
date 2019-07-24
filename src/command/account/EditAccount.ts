@@ -5,9 +5,9 @@ import { Config } 	   from "../../config";
 import { Input } 	   from "../../util";
 
 export class EditAccount implements Command {    
-    command: string = 'edit-account';
+  command: string = 'edit-account';
 
-    async run(): Promise<void> {
+  async run(): Promise<void> {
 		let names = Config.getAccountNames();
 		let selection = await Input.pick(
 			names, 'Pick an account'
@@ -33,5 +33,5 @@ export class EditAccount implements Command {
 		// Update user account
 		Config.updateAccount(account, names.indexOf(account.name));
 		window.showInformationMessage(`Updated account data for ${selection}`);
-    }    
+	}    	
 }

@@ -4,9 +4,9 @@ import { Config }  from "../../config";
 import { Input }   from "../../util";
 
 export class RemoveAccount implements Command {
-    command: string = 'remove-account';    
+  command: string = 'remove-account';    
     
-    async run(): Promise<void> {
+  async run(): Promise<void> {
 		let names = Config.getAccountNames();
 		if (!names.length) {
 			window.showInformationMessage('No GitHub accounts saved');
@@ -25,5 +25,5 @@ export class RemoveAccount implements Command {
 		// 	window.showInformationMessage(name === '' ? 'Removed active account' : `Set active account to ${name}`);
 		// 	await github.setCurrentAccount(name);
 		// }
-    }
+  }
 }

@@ -4,16 +4,16 @@ import { Config }  from "../../config";
 import { Input }   from "../../util";
 
 export class ChangeAccount implements Command {
-    command: string = 'change-account';
+  command: string = 'change-account';
 
-    async run(): Promise<void> {
-        let selection = await Input.pick(
-            Config.getAccountNames(), 'Account name'
-        );
+  async run(): Promise<void> {
+    let selection = await Input.pick(
+      Config.getAccountNames(), 'Account name'
+    );
 
-		if (selection) {
-			Config.currentAccount(selection);
-			window.showInformationMessage(`Set active account to ${selection}`);
-		}
+    if (selection) {
+      Config.currentAccount(selection);
+      window.showInformationMessage(`Set active account to ${selection}`);
     }
+  }
 }

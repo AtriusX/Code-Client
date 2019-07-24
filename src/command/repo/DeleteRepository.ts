@@ -3,10 +3,10 @@ import { window }  from 'vscode';
 import { github }  from '../../github';
 
 export class DeleteRepository implements Command {
-    command: string = 'delete-repository';    
+  command: string = 'delete-repository';    
 
 	async run(): Promise<void> {
-        let account = github.currentAccount.login();
+    let account = github.currentAccount.login();
 		let names = (await account.repos.list())!
 			.data.map((r: { name: string; }) => r.name);
 		
@@ -32,5 +32,5 @@ export class DeleteRepository implements Command {
 
 			window.showErrorMessage('Delete operation aborted');
 		}
-    }
+  }
 }

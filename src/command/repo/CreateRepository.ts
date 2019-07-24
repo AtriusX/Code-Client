@@ -3,10 +3,10 @@ import { github } from '../../github';
 import { window, commands } from 'vscode';
 
 export class CreateRepository implements Command {
-    command: string = 'create-repository';    
+  command: string = 'create-repository';    
     
-    async run(): Promise<void> {
-        let account = github.currentAccount.login();
+  async run(): Promise<void> {
+    let account = github.currentAccount.login();
 		// Get repository properties
 		let name = await window.showInputBox({
 			prompt: 'Type in the name of your repository'
@@ -40,5 +40,5 @@ export class CreateRepository implements Command {
 			});
 		});
 		// TODO auto clone repository and open it
-    }
+  }
 }
