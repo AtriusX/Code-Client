@@ -10,7 +10,7 @@ export class EditAccount implements Command {
     async run(): Promise<void> {
 		let names = Config.getAccountNames();
 		let selection = await Input.pick(
-			names, 'Pick an account', true
+			names, 'Pick an account'
 		);
 
 		let account = Config.getAccount(selection!);
@@ -19,7 +19,7 @@ export class EditAccount implements Command {
 		}
 
 		let item = await Input.pick(account.type === AccountType.USER ?
-			['Username', 'Password'] : ['Name', 'Token'], 'Pick a field to edit', selection
+			['Username', 'Password'] : ['Name', 'Token'], 'Pick a field to edit'
 		);
 		
 		if (!item) {
@@ -27,8 +27,8 @@ export class EditAccount implements Command {
 		}
 
 		let isToken = ['Password', 'Token'].includes(item);
-		let val = await  Input.input(
-			`Enter the new ${item.toLowerCase()} for the account`, item, isToken
+		let val = await Input.input(
+			`Enter the new ${item.toLowerCase()} for the account`
 		);
 
 		if (val) {

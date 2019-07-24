@@ -8,7 +8,7 @@ export class ChangeAccount implements Command {
 
     async run(): Promise<void> {
         let selection = await Input.pick(
-            Config.getAccountNames(), 'Account name', true
+            Config.getAccountNames(), 'Account name'
         );
 
 		if (selection) {

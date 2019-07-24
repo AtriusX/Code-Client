@@ -13,7 +13,7 @@ export class RemoveAccount implements Command {
 		}
 		
 		let selection = await Input.pick(
-			names, 'Pick an account to remove', true
+			names, 'Pick an account to remove'
 		);
 		
 		if (selection) {
