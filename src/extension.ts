@@ -1,3 +1,4 @@
+import { ExtensionContext } from 'vscode';
 import { 
 	Commands, 
 	AddAccount, 
@@ -9,8 +10,6 @@ import {
 	CreateGist,
 	DeleteGist
 } from './command/';
-// import { AddAccount, EditAccount, ChangeAccount, RemoveAccount } from './command/account';
-import { ExtensionContext } from 'vscode';
 
 export function activate(context: ExtensionContext) {
 	// Initialize commands

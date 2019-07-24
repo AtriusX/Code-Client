@@ -1,29 +1,29 @@
 import { Command } 	   from "..";
 import { AccountType } from "../../auth/";
 import { window } 	   from "vscode";
-import { Config } 	   from "../../config";
-import { Input } 	   from "../../util";
+import { config } 	   from "../../config";
+import { input } 	   from "../../util";
 
 export class EditAccount implements Command {    
   command: string = 'edit-account';
 
   async run(): Promise<void> {
-		let names = Config.getAccountNames();
-		let selection = await Input.pick(
+		let names = config.getAccountNames();
+		let selection = await input.pick(
 			names, 'Pick an account'
 		);
 
-		let account = Config.getAccount(selection!);
+		let account = config.getAccount(selection!);
 		if (!account) { return; }
 
-		let item = await Input.pick(account.type === AccountType.USER ?
+		let item = await input.pick(account.type === AccountType.USER ?
 			['Username', 'Password'] : ['Name', 'Token'], 'Pick a field to edit'
 		);
 		
 		if (!item) { return; }
 
 		let isToken = ['Password', 'Token'].includes(item);
-		let val = await Input.input(
+		let val = await input.input(
 			`Enter the new ${item.toLowerCase()} for the account`
 		);
 
@@ -31,7 +31,7 @@ export class EditAccount implements Command {
 			isToken ? account.key = val : account.name = val;
 		}
 		// Update user account
-		Config.updateAccount(account, names.indexOf(account.name));
+		config.updateAccount(account, names.indexOf(account.name));
 		window.showInformationMessage(`Updated account data for ${selection}`);
 	}    	
 }

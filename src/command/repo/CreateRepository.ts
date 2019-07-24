@@ -1,5 +1,5 @@
-import { Command } from '..';
-import { github } from '../../github';
+import { Command } 			from '..';
+import { github } 			from '../../github';
 import { window, commands } from 'vscode';
 
 export class CreateRepository implements Command {

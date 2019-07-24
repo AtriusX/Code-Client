@@ -1,8 +1,7 @@
-import { Command } from "..";
-import { window, Range, Position } from "vscode";
-import { github } from "../../github";
-import { Config } from "../../config";
-import { Input } from "../../util";
+import { Command }       from "..";
+import { window, Range } from "vscode";
+import { github }        from "../../github";
+import { input }         from "../../util";
 
 export class CreateGist implements Command {
     command: string = 'create-gist';   
@@ -14,10 +13,10 @@ export class CreateGist implements Command {
       return;
     }
 
-    let type = await Input.booleanChoice('File', 'Selection');
+    let type = await input.booleanChoice('File', 'Selection');
     if (type === undefined) { return; }
 
-    let visible = await Input.booleanChoice('Public', 'Private', 'Account visibility');
+    let visible = await input.booleanChoice('Public', 'Private', 'Account visibility');
     if (visible === undefined) { return; }
 
     let doc   = active.document, sel = active.selection;
@@ -31,7 +30,7 @@ export class CreateGist implements Command {
       return;
     }
 
-    let desc = await Input.input('Enter a description for your Gist');
+    let desc = await input.input('Enter a description for your Gist');
     if (desc === undefined) { return; }
     
     github.currentAccount.login().gists.create({

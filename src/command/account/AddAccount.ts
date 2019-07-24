@@ -1,7 +1,7 @@
 import { Command }              from "..";
 import { AccountType, Account } from "../../auth/";
-import { Config } 				from "../../config";
-import { Input } from "../../util/Input";
+import { config } 			      	from "../../config";
+import { input }                from "../../util/Input";
 
 
 export class AddAccount implements Command {
@@ -10,21 +10,21 @@ export class AddAccount implements Command {
   async run(): Promise<void> {
     let user = AccountType.USER, token = AccountType.TOKEN;
     
-    let type = await Input.booleanChoice(user, token);
+    let type = await input.booleanChoice(user, token);
     if (type === undefined) { return; }
 
-    let name = await Input.input(
+    let name = await input.input(
       `Please type in the ${type ? 'account user' : 'token '}name.`
     );
     if (!name) { return; }
 
-    let key = await Input.input(
+    let key = await input.input(
       `Please type in the ${type ? 'account password' : 'token'}`
     );
     if (!key) { return; }
 
-    Config.currentAccount(name);
-    Config.addAccount(
+    config.currentAccount(name);
+    config.addAccount(
       new Account(type ? user : token, name, key)
     );
   }

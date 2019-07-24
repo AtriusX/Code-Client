@@ -1,18 +1,18 @@
 import { window }  from "vscode";
 import { Command } from "..";
-import { Config }  from "../../config";
-import { Input }   from "../../util";
+import { config }  from "../../config";
+import { input }   from "../../util";
 
 export class ChangeAccount implements Command {
   command: string = 'change-account';
 
   async run(): Promise<void> {
-    let selection = await Input.pick(
-      Config.getAccountNames(), 'Account name'
+    let selection = await input.pick(
+      config.getAccountNames(), 'Account name'
     );
 
     if (selection) {
-      Config.currentAccount(selection);
+      config.currentAccount(selection);
       window.showInformationMessage(`Set active account to ${selection}`);
     }
   }
