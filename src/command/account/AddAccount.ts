@@ -9,29 +9,23 @@ export class AddAccount implements Command {
 
   async run(): Promise<void> {
     let user = AccountType.USER, token = AccountType.TOKEN;
-    // 
-    let isuser, [type, name, key] = await Input.sequence([
-      {
-        type: 'bool',
-        text: 'User Type',
-        inputs: [user, token],
-        action: res => isuser = res
-      },
-      {
-        type: 'text',
-        text: `Please type in the ${isuser ? 'account user' : 'token '}name.`
-      },
-      {
-        type: 'pass',
-        text: `Please type in the ${isuser ? 'account password' : 'token'}`,
-      }
-    ]);
     
-    if (name && key) {
-      Config.currentAccount(name);
-      Config.addAccount(
-        new Account(type ? user : token, name, key)
-      );
-    }
+    let type = await Input.booleanChoice(user, token);
+    if (type === undefined) { return; }
+
+    let name = await Input.input(
+      `Please type in the ${type ? 'account user' : 'token '}name.`
+    );
+    if (!name) { return; }
+
+    let key = await Input.input(
+      `Please type in the ${type ? 'account password' : 'token'}`
+    );
+    if (!key) { return; }
+
+    Config.currentAccount(name);
+    Config.addAccount(
+      new Account(type ? user : token, name, key)
+    );
   }
 }

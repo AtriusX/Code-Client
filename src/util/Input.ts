@@ -36,41 +36,4 @@ export namespace Input {
       placeHolder: placeHolder
     }, undefined);
   }
-
-  export async function sequence(
-     steps: Question[]
-  ): Promise<Array<string>> {
-    let results: Array<string> = [];
-    for (let step of steps) {
-      let result: boolean | string | undefined;
-      switch (step.type) {
-        case 'text': case 'pass':
-          result = await input(step.text, step.type === 'pass');
-          break;
-        case 'bool':
-          let [pos, neg] = step.inputs!;
-          result = await booleanChoice(pos, neg, step.text);
-          break;
-        case 'pick':
-          result = await pick(step.inputs!, step.text);
-          break;
-      }
-      // End sequence if a result returns undefined
-      if (result === undefined) { break; }
-      // Execute the question's post-action
-      if (step.action) {
-        if (!step.action(result)) { break; }
-      }
-      // Add the result to the output
-      results.push(result as string);
-    }
-    return results;
-  }
-
-  export class Question {
-    type!:   'text' | 'pass' | 'bool' | 'pick';
-    text?:   string;
-    inputs?: string[];
-    action?: (res: any) => void | undefined;
-  }
 }
