@@ -1,30 +1,35 @@
 import { Command }              from "..";
 import { AccountType, Account } from "../../auth/";
 import { Config } 				from "../../config";
-import { Input }				from "../../util";
+import { Input } from "../../util/Input";
+
 
 export class AddAccount implements Command {
 	command: string = 'add-account';    
 
     async run(): Promise<void> {
         let user = AccountType.USER, token = AccountType.TOKEN;
-		let type = await Input.booleanChoice(
-			user, token, 'User Type', true
-		);
+		let type = await Input.booleanChoice(user, token, 'User Type');
+		// 
+		if (type === undefined) {
+			return;
+		}
 		
-		let isuser = type === true;
-		let name = await Input.input(
-			`Please type in the ${isuser ? 'account username.' : 'token name.'}`, type
-		);
+		let [name, key] = await Input.sequence([
+			{
+				type: 'text',
+				text: `Please type in the ${type ? 'account user' : 'token '}name.`
+			},
+			{
+				type: 'pass',
+				text: `Please type in the ${type ? 'account password' : 'token'}`,
+			}
+		]) as string[];
 		
-		let key = await Input.input(
-			`Please type in the ${isuser ? 'account password.' : 'token.'}`, name, true
-		);
-
 		if (name && key) {
 			Config.currentAccount(name);
 			Config.addAccount(
-				new Account(isuser ? user : token, name, key)
+				new Account(type ? user : token, name, key)
 			);
 		}
     }
