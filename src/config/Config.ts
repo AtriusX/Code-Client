@@ -1,7 +1,7 @@
-import { Account } from '../auth';
+import { Account }   from '../auth';
 import { workspace } from "vscode";
 
-export namespace Config {
+export namespace config {
   const config = workspace.getConfiguration('managit', null);
 
   export function getAccounts(): Account[] {

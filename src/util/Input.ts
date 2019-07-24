@@ -1,6 +1,6 @@
-import { window, QuickPickOptions, InputBoxOptions } from "vscode";
+import { window } from "vscode";
 
-export namespace Input {
+export namespace input {
 
   export async function booleanChoice(
     positive:    string, 
