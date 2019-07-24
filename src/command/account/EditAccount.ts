@@ -14,17 +14,13 @@ export class EditAccount implements Command {
 		);
 
 		let account = Config.getAccount(selection!);
-		if (!account) {
-			return;
-		}
+		if (!account) { return; }
 
 		let item = await Input.pick(account.type === AccountType.USER ?
 			['Username', 'Password'] : ['Name', 'Token'], 'Pick a field to edit'
 		);
 		
-		if (!item) {
-			return;
-		}
+		if (!item) { return; }
 
 		let isToken = ['Password', 'Token'].includes(item);
 		let val = await Input.input(
