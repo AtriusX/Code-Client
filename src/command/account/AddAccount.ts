@@ -9,20 +9,21 @@ export class AddAccount implements Command {
 
     async run(): Promise<void> {
         let user = AccountType.USER, token = AccountType.TOKEN;
-		let type = await Input.booleanChoice(user, token, 'User Type');
-		// 
-		if (type === undefined) {
-			return;
-		}
 		
-		let [name, key] = await Input.sequence([
+		let isuser, [type, name, key] = await Input.sequence([
+			{
+				type: 'bool',
+				text: 'User Type',
+				inputs: [user, token],
+				action: res => isuser = res
+			},
 			{
 				type: 'text',
-				text: `Please type in the ${type ? 'account user' : 'token '}name.`
+				text: `Please type in the ${isuser ? 'account user' : 'token '}name.`
 			},
 			{
 				type: 'pass',
-				text: `Please type in the ${type ? 'account password' : 'token'}`,
+				text: `Please type in the ${isuser ? 'account password' : 'token'}`,
 			}
 		]) as string[];
 		

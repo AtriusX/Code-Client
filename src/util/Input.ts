@@ -57,11 +57,15 @@ export namespace Input {
                     result = await pick(step.inputs!, step.text);
                     break;
             }
-            console.log(result);
+            
             if (!result) { 
                 break; 
             }
 
+            if (step.action) {
+                step.action(result);
+            }
+            
             results.push(result);
         }
         return results;
@@ -69,7 +73,8 @@ export namespace Input {
 }
 
 export class Question {
-    type!:     'text' | 'pass' | 'bool' | 'pick';
-    text?:     string;
-    inputs?:   string[];
+    type!:   'text' | 'pass' | 'bool' | 'pick';
+    text?:   string;
+    inputs?: string[];
+    action?: (res: any) => void;
 }
