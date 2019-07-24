@@ -20,19 +20,13 @@ export class CreateGist implements Command {
     let visible = await Input.booleanChoice('Public', 'Private', 'Account visibility');
     if (visible === undefined) { return; }
 
-    let doc = active.document;
-    let file = doc.fileName.split('\\');
-    let data = { name: file[file.length - 1], data: '' };
-    let sel = active.selection;
-    let text = type ? doc.getText() : new Range(sel.start, sel.end); 
-    
-    if (type) {
-      data.data = text as string; 
-    } else {
-      data.data = doc.getText(text as Range);
-    }
+    let doc   = active.document, sel = active.selection;
+    let range = type ? undefined : new Range(sel.start, sel.end); 
+    let data  = { 
+      name: doc.fileName.split('\\').pop(), data: doc.getText(range).trim()
+    };
 
-    if (data.data.trim().length === 0) {
+    if (!data.data.length) {
       window.showInformationMessage('Cannot create Gist without any data');
       return;
     }
@@ -42,7 +36,7 @@ export class CreateGist implements Command {
     
     github.currentAccount.login().gists.create({
       description: desc,
-      public: visible ? true : false,
+      public: visible,
       files: {
         [data.name!]: {
           content: data.data
