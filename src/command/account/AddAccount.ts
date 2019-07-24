@@ -11,17 +11,17 @@ export class AddAccount implements Command {
     let user = AccountType.USER, token = AccountType.TOKEN;
     
     let type = await input.booleanChoice(user, token);
-    if (type === undefined) { return; }
+    if (type === undefined) return;
 
     let name = await input.input(
       `Please type in the ${type ? 'account user' : 'token '}name.`
     );
-    if (!name) { return; }
+    if (!name) return;
 
     let key = await input.input(
       `Please type in the ${type ? 'account password' : 'token'}`
     );
-    if (!key) { return; }
+    if (!key) return;
 
     config.currentAccount(name);
     config.addAccount(

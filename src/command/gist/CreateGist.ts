@@ -14,10 +14,10 @@ export class CreateGist implements Command {
     }
 
     let type = await input.booleanChoice('File', 'Selection');
-    if (type === undefined) { return; }
+    if (type === undefined) return;
 
     let visible = await input.booleanChoice('Public', 'Private', 'Account visibility');
-    if (visible === undefined) { return; }
+    if (visible === undefined) return;
 
     let doc   = active.document, sel = active.selection;
     let range = type ? undefined : new Range(sel.start, sel.end); 
@@ -31,7 +31,7 @@ export class CreateGist implements Command {
     }
 
     let desc = await input.input('Enter a description for your Gist');
-    if (desc === undefined) { return; }
+    if (desc === undefined) return;
     
     github.currentAccount.login().gists.create({
       description: desc,
