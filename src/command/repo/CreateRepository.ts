@@ -2,6 +2,7 @@ import { Command }          from '..';
 import { github }           from '../../github';
 import { window, commands } from 'vscode';
 import { input }            from '../../util';
+import { msg }              from '../../util/Msg';
 
 export class CreateRepository implements Command {
   command: string = 'create-repository';
@@ -24,9 +25,9 @@ export class CreateRepository implements Command {
       name: name, description: desc,
       private: visibility, auto_init: init
     }).then((result) => {
-      window.showInformationMessage(`Created repository '${name}'`, 'Clone').then(() => {
+      msg.button(`Created repository '${name}'`, 'Clone', () => {
         commands.executeCommand('git.clone', result.data.url).then(() => {
-          window.showInformationMessage('Repository cloned');
+          msg.info('Repository cloned');
         });
       });
     });

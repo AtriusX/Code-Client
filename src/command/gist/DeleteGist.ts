@@ -1,7 +1,7 @@
 import { Command } from "..";
-import { github } from "../../github";
-import { input } from "../../util";
-import { window } from "vscode";
+import { github }  from "../../github";
+import { input }   from "../../util";
+import { msg }     from "../../util/Msg";
 
 export class DeleteGist implements Command {
   command: string = 'delete-gist';
@@ -24,7 +24,7 @@ export class DeleteGist implements Command {
       account.gists.delete({
         gist_id: selection
       }).then(() => {
-        window.showInformationMessage(`Deleted Gist ${selection}`);
+        msg.info(`Deleted Gist ${selection}`);
       });
     }
   }

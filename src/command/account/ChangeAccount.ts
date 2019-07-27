@@ -1,7 +1,7 @@
-import { window }  from "vscode";
 import { Command } from "..";
 import { config }  from "../../config";
 import { input }   from "../../util";
+import { msg }     from "../../util/Msg";
 
 export class ChangeAccount implements Command {
   command: string = 'change-account';
@@ -13,7 +13,7 @@ export class ChangeAccount implements Command {
 
     if (selection) {
       config.currentAccount(selection);
-      window.showInformationMessage(`Set active account to ${selection}`);
+      msg.info(`Set active account to ${selection}`);
     }
   }
 }

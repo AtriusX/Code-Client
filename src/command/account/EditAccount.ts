@@ -1,8 +1,8 @@
 import { Command }     from "..";
 import { AccountType } from "../../auth/";
-import { window }      from "vscode";
 import { config }      from "../../config";
 import { input }       from "../../util";
+import { msg }         from "../../util/Msg";
 
 export class EditAccount implements Command {
   command: string = 'edit-account';
@@ -30,7 +30,7 @@ export class EditAccount implements Command {
       isToken ? account.key = val : account.name = val;
       // Update user account
       config.updateAccount(account, names.indexOf(account.name));
-      window.showInformationMessage(`Updated account data for ${selection}`);
+      msg.info(`Updated account data for ${selection}`);
     }
   }
 }

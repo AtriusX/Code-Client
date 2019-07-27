@@ -2,6 +2,7 @@ import { Command }       from "..";
 import { window, Range } from "vscode";
 import { github }        from "../../github";
 import { input }         from "../../util";
+import { msg }           from "../../util/Msg";
 
 export class CreateGist implements Command {
     command: string = 'create-gist';
@@ -9,7 +10,7 @@ export class CreateGist implements Command {
     async run(): Promise<void> {
     let active = window.activeTextEditor;
     if (!active) {
-      window.showInformationMessage('This command can only be ran from text editors');
+      msg.info('This command can only be ran from text editors');
       return;
     }
 
@@ -26,7 +27,7 @@ export class CreateGist implements Command {
     };
 
     if (!data.data.length) {
-      window.showInformationMessage('Cannot create Gist without any data');
+      msg.info('Cannot create Gist without any data');
       return;
     }
 
@@ -42,7 +43,7 @@ export class CreateGist implements Command {
         }
       }
     }).then(() => {
-      window.showInformationMessage(`Created Gist '${data.name}'`);
+      msg.info(`Created Gist '${data.name}'`);
     });
   }
 }

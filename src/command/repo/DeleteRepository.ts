@@ -2,6 +2,7 @@ import { Command } from '..';
 import { window }  from 'vscode';
 import { github }  from '../../github';
 import { input }   from '../../util';
+import { msg }     from '../../util/Msg';
 
 export class DeleteRepository implements Command {
   command: string = 'delete-repository';
@@ -24,7 +25,7 @@ export class DeleteRepository implements Command {
     });
 
     if (answer !== selection.toLowerCase()) {
-      window.showErrorMessage('Delete operation aborted');
+      msg.error('Delete operation aborted');
       return;
     }
 
@@ -32,7 +33,7 @@ export class DeleteRepository implements Command {
       owner: github.currentAccount.name,
       repo: selection
     }).then(() => {
-      window.showInformationMessage(`Deleted repository ${selection}`);
+      msg.info(`Deleted repository ${selection}`);
     });
   }
 }

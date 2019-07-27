@@ -1,7 +1,7 @@
-import { window }  from "vscode";
 import { Command } from "..";
 import { config }  from "../../config";
 import { input }   from "../../util";
+import { msg }	   from "../../util/Msg";
 
 export class RemoveAccount implements Command {
   command: string = 'remove-account';    
@@ -9,7 +9,7 @@ export class RemoveAccount implements Command {
   async run(): Promise<void> {
 		let names = config.getAccountNames();
 		if (!names.length) {
-			window.showInformationMessage('No GitHub accounts saved');
+			msg.info('No GitHub accounts saved');
 		}
 		
 		let selection = await input.pick(
@@ -18,7 +18,7 @@ export class RemoveAccount implements Command {
 		
 		if (selection) {
 			config.removeAccount(names.indexOf(selection));
-			window.showInformationMessage(`Deleted '${selection}' from accounts`);
+			msg.info(`Deleted '${selection}' from accounts`);
 		}
 		// if (selected === github.currentAccount.name) {
 		// 	let name = users.length !== 0 ? users[0].name : '';
