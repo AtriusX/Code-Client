@@ -8,7 +8,8 @@ import {
 	CreateRepository, 
 	DeleteRepository, 
 	CreateGist,
-	DeleteGist
+	DeleteGist,
+	Search
 } from './command/';
 
 export function activate(context: ExtensionContext) {
@@ -21,7 +22,8 @@ export function activate(context: ExtensionContext) {
 		new CreateRepository(),
 		new DeleteRepository(),
 		new CreateGist(),
-		new DeleteGist()
+		new DeleteGist(),
+		new Search()
 	);
 }
 

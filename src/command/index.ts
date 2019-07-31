@@ -11,3 +11,5 @@ export * from './repo/DeleteRepository';
 // Gist
 export * from './gist/CreateGist';
 export * from './gist/DeleteGist';
+// Search
+export * from './search/Search';
